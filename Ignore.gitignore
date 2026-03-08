@@ -1,1 +1,3 @@
-energy_env_py.yaml
+# Ignore files for the Energy Environment project
+energy_env_py2.yaml
+energy_env_py3.yaml
