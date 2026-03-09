@@ -1,0 +1,12 @@
+# Local datasets and large artifacts
+00_Raw_Data/
+00_Raw_Data/*.zip
+DataForRodeEtAl2021.zip
+energy_data_release_2021oct21/
+DATA/
+OUTPUT/
+LOG/
+
+# Local env files
+energy_env_py2.yaml
+energy_env_py3.yaml

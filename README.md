@@ -65,6 +65,30 @@ Rscript install_R_packages.R
 
 5. Download data from `https://doi.org/10.5281/zenodo.5099834` and unzip it somewhere on your machine with 50GB+ space. Let's call this location `yourDATA`. 
 
+   **Automated Setup (Windows):**
+   
+   The dataset (~2.6 GB compressed, expands to ~50 GB) has been downloaded to this repository directory as `DataForRodeEtAl2021.zip`. To extract automatically:
+   
+   ```powershell
+   # Monitor download and auto-extract when complete
+   .\monitor_download.ps1
+   ```
+   
+   Or manually extract after download completes:
+   ```powershell
+   Expand-Archive -Path "DataForRodeEtAl2021.zip" -DestinationPath "." -Force
+   ```
+   
+   After extraction, the data will be in `energy_data_release_2021oct21/` containing:
+   - `DATA/` - Raw and processed input data
+   - `OUTPUT/` - Analysis outputs and results
+   - `LOG/` - Processing logs
+   
+   These directories are excluded from git tracking via `.gitignore` to prevent committing large data files.
+   
+   **Note for Step 6:** When setting environmental variables, use:
+   - `yourDATA` = `C:\Users\juago\Documents\GitHub\energy-code-release-2020-GPICA\energy_data_release_2021oct21`
+
 6. Set up a few environmental variables so that all the code runs smoothly.
 
 On Mac, you can do this by appending the following lines to your `~/.bash_profile`.
