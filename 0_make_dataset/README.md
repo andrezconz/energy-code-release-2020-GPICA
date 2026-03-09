@@ -1,4 +1,18 @@
 # Run instructions
+
+## ⚠️ IMPORTANT DISCLAIMER: Data Processing Not Required
+
+**You do NOT need to run the data processing scripts in this directory.** Because the raw data sources are proprietary and not publicly available, the original study authors have provided all processed, regression-ready datasets in the Zenodo repository (DOI: 10.5281/zenodo.5099834). These datasets include:
+
+* `IEA_merged_long_GMFD.dta` - Intermediate merged dataset
+* `GMFD_TINV_clim_regsort.dta` - Main model regression-ready data
+* `GMFD_TINV_clim_EX_regsort.dta` - Excluding imputed data model
+* `break_data_TINV_clim.dta` and `break_data_TINV_clim_EX.dta` - Covariate information for plotting
+
+**You can proceed directly to the `1_analysis/` directory to run the econometric analysis.** The scripts in this `0_make_dataset/` directory are provided for reference and transparency, documenting how the original datasets were constructed.
+
+---
+
 To run all code in this directory, do `./0_make_dataset.sh`. 
 
 Please note, the raw data used here is not publicly available. 
@@ -119,6 +133,20 @@ Through this data testing we motivate the first differencing completed in `Step 
 # Versión en Español
 
 # Instrucciones de ejecución
+
+## ⚠️ AVISO IMPORTANTE: No Es Necesario Procesar los Datos
+
+**NO necesitas ejecutar los scripts de procesamiento de datos en este directorio.** Debido a que las fuentes de datos crudos son propietarias y no están disponibles públicamente, los autores del estudio original han proporcionado todos los datasets procesados y listos para regresión en el repositorio Zenodo (DOI: 10.5281/zenodo.5099834). Estos datasets incluyen:
+
+* `IEA_merged_long_GMFD.dta` - Dataset intermedio fusionado
+* `GMFD_TINV_clim_regsort.dta` - Datos listos para regresión del modelo principal
+* `GMFD_TINV_clim_EX_regsort.dta` - Modelo excluyendo datos imputados
+* `break_data_TINV_clim.dta` y `break_data_TINV_clim_EX.dta` - Información de covariables para graficación
+
+**Puedes proceder directamente al directorio `1_analysis/` para ejecutar el análisis econométrico.** Los scripts en este directorio `0_make_dataset/` se proporcionan como referencia y para transparencia, documentando cómo se construyeron los datasets originales.
+
+---
+
 Para ejecutar todo el código de este directorio, ejecuta `./0_make_dataset.sh`. 
 
 **Nota importante:** Los datos crudos utilizados aquí no están disponibles públicamente. 
