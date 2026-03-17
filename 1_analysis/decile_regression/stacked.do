@@ -1,3 +1,7 @@
+global DATA "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA"
+global OUTPUT "/Users/andrezconz/energy-code-release-2020-GPICA/output"
+local model "TINV_clim"
+
 /*
 
 Purpose: Estimate stacked income decile regression (generate sters)
@@ -6,13 +10,13 @@ Purpose: Estimate stacked income decile regression (generate sters)
 
 ****** Set Model Specification Locals ******************************************
 
-local model = "$model"
+global model "TINV_clim"
 			
 ********************************************************************************
 *Step 1: Load Data
 ********************************************************************************
 		
-use "$DATA/regression/GMFD_`model'_regsort.dta", `clear'
+use "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA/regression/GMFD_TINV_clim_regsort.dta", clear
 
 ********************************************************************************
 * Step 2: Prepare Regressors and Run Regression
@@ -65,5 +69,5 @@ qui gen weight = 1/omega
 				
 * run second stage FGLS regression
 reghdfe FD_load_pc `income_decile_temp_r' `precip_r' DumInc* [pw=weight], absorb(i.flow_i#i.product_i#i.year#i.subregionid) cluster(region_i)
-estimates save "$OUTPUT/sters/FD_FGLS_income_decile_`model'", replace	
+estimates save "/Users/andrezconz/energy-code-release-2020-GPICA/output/sters/FD_FGLS_income_decile_TINV_clim", replace
 

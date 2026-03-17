@@ -20,8 +20,7 @@ root =  paste0(REPO, "/energy-code-release-2020")
 
 
 # Set paths
-dir = paste0(OUTPUT, "/projection_system_outputs/damage_function_estimation/")
-
+dir <- "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA/intermediate_data/"
 
 # This function takes in a csv that contains means and variances of 
 # each GCMs projected global impact for a given year. 
@@ -45,7 +44,7 @@ take_draws = function(price, ssp, fuel, num_iterations,
   }
   
   # Read in the gcm level means and standard deviations
-  df = read_csv(paste0(directory, "impact_values/",
+  df = read_csv(paste0(directory,
           "gcm_", type, "_OTHERIND_",fuel ,price_tag, "_",ssp, ".csv"))
   
   

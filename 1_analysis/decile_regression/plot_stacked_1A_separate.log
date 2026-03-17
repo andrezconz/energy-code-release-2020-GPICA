@@ -1,0 +1,166 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       SE—Standard Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Unlimited-user network, expiring 16 Aug 2026
+Serial number: 401909309297
+  Licensed to: andrezconz
+               Universidad de los Andes
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do plot_stacked_1A_separate.do 
+
+. /*
+> 
+> Purpose: Plot the energy/other energy separated version of 1A
+> 
+> */
+. 
+. foreach fuel in "electricity" "other_energy" {
+  2.         set scheme s1color
+  3. 
+.         ****** Set Model Specification Locals *******************************
+> ***********
+. 
+.         local model = "$model"
+  4. 
+.         ****** Set Plotting Toggles *****************************************
+> ***********
+. 
+.         // plotting color and color name for title
+. 
+.         * electricity 
+.         local electricity_col "dknavy"
+  5.         local electricity_colTT "Blue"
+  6. 
+.         * other energy 
+.         local other_energy_col "dkorange"
+  7.         local other_energy_colTT "Orange"
+  8.                                 
+.         *********************************************************************
+> ***********
+.         *Step 1: Load Data and Clean for Plotting
+.         *********************************************************************
+> ***********
+.                         
+.         use "$DATA/regression/GMFD_`model'_regsort.dta", clear
+  9. 
+.         //Set up locals for plotting
+.         local obs = 35 + abs(-5) + 1
+ 10. 
+.         //clean data for plotting
+.         drop if _n > 0
+ 11.         set obs `obs'
+ 12. 
+.         replace temp1_GMFD = _n - 6
+ 13. 
+.         foreach k of num 1/2 {
+ 14.                 rename temp`k'_GMFD temp`k'
+ 15.                 replace temp`k' = temp1 ^ `k'
+ 16.         }
+ 17. 
+.         *********************************************************************
+> ***********
+.         * Step 2: Plot Plot Plot
+.         *********************************************************************
+> ***********
+.         local graphic ""
+ 18.         local graphic_noSE ""
+ 19. 
+.         // loop over income deciles
+.         forval lg=1/10 {
+ 20.                                 
+.                 // set up plotting locals
+.                 local SE ""
+ 21.                 local noSE ""
+ 22.                 local colorGuide ""     
+ 23. 
+.                 foreach var in `fuel' {
+ 24. 
+.                         // assign product index
+.                         if "`var'" == "electricity" {
+ 25.                                 local pg = 1
+ 26.                         }
+ 27.                         else if "`var'" == "other_energy" {
+ 28.                                 local pg=2
+ 29.                         }
+ 30. 
+.                         * construct local variable that holds dose response
+.                         
+.                         local line = ""
+ 31.                         local add = ""
+ 32.                         
+.                         forval k = 1/2 {
+ 33. 
+.                                 local line = "`line'`add'_b[c.indp`pg'#c.indf
+> 1#c.FD_I`lg'temp`k'] * (temp`k' - 20^`k')"
+ 34.                                 local add " + "
+ 35. 
+.                         } 
+ 36. 
+.                         * use ster to estimate dose response
+. 
+.                         estimates use "$OUTPUT/sters/FD_FGLS_income_decile_`m
+> odel'"
+ 37.                         predictnl yhat`lg'_`var' = `line', se(se`lg'_`var'
+> ) ci(lower`lg'_`var' upper`lg'_`var')
+ 38.                         
+.                         // add predicted dose reponse to plotting locals
+.                         loc SE = "`SE' rarea upper`lg'_`var' lower`lg'_`var' 
+> temp1, col(``var'_col'%30) || line yhat`lg'_`var' temp1, lc (``var'_col') ||"
+ 39.                         loc noSE "`noSE' line yhat`lg'_`var' temp1, lc (``
+> var'_col') ||"
+ 40.                         loc colorGuide = "`colorGuide' `var' (``var'_colTT
+> ')"
+ 41. 
+.                 }
+ 42.                 
+. 
+. 
+.                 //plot with SE
+.                 tw `SE' , ///
+>                 yline(0, lwidth(vthin)) xlabel(-5(10)35, labsize(vsmall)) ///
+>                 ylabel(, labsize(vsmall) nogrid) legend(off) ///
+>                 subtitle("", size(vsmall) color(dkgreen)) ///
+>                 ytitle("", size(small)) xtitle("", size(small)) ///
+>                 plotregion(color(white)) graphregion(color(white)) nodraw ///
+>                 name(addgraph`lg', replace)
+ 43. 
+.                 //add graphic for combined plotting later
+.                 local graphic = "`graphic' addgraph`lg'"
+ 44.                 local graphic_noSE = "`graphic_noSE' addgraph`lg'_noSE"
+ 45.         }                               
+ 46.                                                                           
+>       
+.         // plot and save combined plot with SE
+.         graph combine `graphic', imargin(zero) ycomm rows(1) xsize(20) ysize(
+> 3) ///
+>         title("Poly 2 Income Decile Electricity Temperature Response (`model'
+> )", size(small)) ///
+>         subtitle("`colorGuide'", size(small)) ///
+>         plotregion(color(white)) graphregion(color(white)) name(comb, replace
+> )
+ 47.         graph export "$OUTPUT/figures/fig_1A_`fuel'_income_decile_`model'.
+> pdf", replace
+ 48.                 
+.         graph drop _all 
+ 49. 
+. }
+file /regression/GMFD__regsort.dta not found
+r(601);
+
+end of do-file
+r(601);

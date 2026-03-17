@@ -3,8 +3,7 @@
 rm(list = ls())
 library(logr)
 LOG <- Sys.getenv(c("LOG"))
-log_open(file.path(LOG, "3_post_projection/3_SCC/p_values_for_text.log"), logdir = FALSE)
-
+log_open("p_values_for_text.log")
 
 
 # RCP 8.5 electricity impact at 2099 (GJ per capita)
@@ -17,6 +16,7 @@ log_open(file.path(LOG, "3_post_projection/3_SCC/p_values_for_text.log"), logdir
 library(dplyr)
 library(readr)
 library(reticulate)
+use_python("/Users/andrezconz/miniconda3/bin/python", required = TRUE)
 library(tidyr)
 library(miceadds)
 library(ggplot2)
@@ -49,7 +49,7 @@ root =  paste0(REPO, "/energy-code-release-2020")
 output = paste0(OUTPUT, "/figures")
 
 git <- REPO
-prospectus.tools.lib <- paste0("/home/liruixue/repos",'/prospectus-tools/gcp/extract/')
+# prospectus.tools.lib <- paste0("/home/liruixue/repos",'/prospectus-tools/gcp/extract/')
 p_p_tools <- paste0(git, "/post-projection-tools/")
 # # Enable python use by R
 use_python(paste0('/home/',"liruixue",'/miniconda3/envs/', "risingverse-py27", '/bin/python'), required = T)
@@ -60,8 +60,13 @@ setwd(prospectus.tools.lib)
 db = '/mnt/CIL_energy/'
 output = '/mnt/CIL_energy/code_release_data_pixel_interaction/'
 
-dir = paste0('/shares/gcp/social/parameters/energy_pixel_interaction/extraction/',
-				'multi-models/rationalized_code/break2_Exclude_all-issues_semi-parametric/')
+# Forzar rutas reales
+LOG <- "/Users/andrezconz/energy-code-release-2020-GPICA/output/logs"
+DATA <- "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA"
+dir <- "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA/intermediate_data/"
+
+# Crear la carpeta de log por si no existe
+dir.create(file.path(LOG, "3_post_projection/3_SCC/"), recursive = TRUE, showWarnings = FALSE)
 
 # Make sure you are in the risingverse-py27 for this... 
 projection.packages <- paste0(REPO,"/energy-code-release-2020/2_projection/0_packages_programs_inputs/extract_projection_outputs/")
@@ -339,4 +344,4 @@ df = bind_rows(total, fuels) %>%
 	bind_rows(total_gdp)
 
 
-write_csv(df, "/home/liruixue/repos/energy-code-release-2020/data/p_values.csv")
+write_csv(df, "/Users/andrezconz/energy-code-release-2020-GPICA/data/p_values.csv")
