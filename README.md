@@ -402,6 +402,7 @@ El analisis del articulo se organiza en cinco pasos:
 - `3_post_projection`: figuras y productos posteriores a las proyecciones.
 - `4_misc`: figuras y calculos adicionales del paper.
 - `projection_inputs`: insumos necesarios para correr proyecciones.
+- `documents`: documentos relacionados con entregas del proyecto transversal.
 
 ## Resumen de pasos
 
