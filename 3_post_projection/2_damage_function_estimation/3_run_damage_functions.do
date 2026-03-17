@@ -2,6 +2,10 @@
 * DAMAGE FUNCTION ESTIMATION FOR SCC 
 * CALCULATION INCLUDING POST-2100 EXTRAPOLATION
 *****************************************
+* import delimited "$OUTPUT/projections/...", clear (Esta era la vieja)
+import delimited "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA/intermediate_data/ce_damage_timeseries.csv", clear
+
+
 /* 
 This script does the following:
 	* 1) Pulls in a .csv containing damages at global or impact region level. The .csv 

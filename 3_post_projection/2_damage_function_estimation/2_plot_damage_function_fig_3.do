@@ -24,8 +24,7 @@ glob output "$OUTPUT/figures/"
 
 
 //Load in GMTanom data file, save as a tempfile 
-insheet using "$OUTPUT/projection_system_outputs/damage_function_estimation/GMTanom_all_temp_2001_2010_smooth.csv", comma names clear
-drop if year < 2015 | year > 2099
+insheet using "/Users/andrezconz/energy-data/DATA/energy_data_release_2021oct21/DATA/intermediate_data/ce_damage_timeseries.csv", comma names clear
 drop if temp == .
 tempfile GMST_anom
 save `GMST_anom', replace
